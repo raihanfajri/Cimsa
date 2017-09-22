@@ -1,0 +1,524 @@
+@font-face {
+    font-family: 'Avenir Next';
+    src: url("../assets/fonts/AvenirNextLTPro-Regular.otf");
+    /* File to be stored at your site */
+}
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    margin: 0;
+    -webkit-animation: fadein 2s;
+    /* Safari, Chrome and Opera > 12.1 */
+    -moz-animation: fadein 2s;
+    /* Firefox < 16 */
+    -ms-animation: fadein 2s;
+    /* Internet Explorer */
+    -o-animation: fadein 2s;
+    /* Opera < 12.1 */
+    animation: fadein 2s;
+}
+
+h1,
+h2,
+h3,
+h4 {
+    padding: 0px;
+    margin: 0px;
+}
+
+.navbar {
+    margin: 0;
+    padding: 0;
+    background: #fff;
+    font-size: 18px;
+    font-family: 'Avenir Next' !important;
+}
+
+.navbar-nav .active {
+    border-bottom: 4px solid #d00a2c;
+}
+.navbar a {
+    color: #000 !important;
+}
+.navbar-nav>li {
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.navbar-nav>i {
+    margin-left: 20px;
+    margin-right: 20px;
+    cursor: pointer;
+}
+
+.navbar-nav>.fa-shopping-cart:hover {
+    color: #d00a2c !important;
+}
+
+.navbar .navbar-toggler .icon-bar {
+    background: black !important;
+}
+
+nav ul li a {
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+}
+
+nav ul li a:after {
+    display: block;
+    position: absolute;
+    margin: 0;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    content: '.';
+    color: transparent;
+    width: 1px;
+    height: 1px;
+    border-radius: 50%;
+    background: transparent;
+}
+
+nav ul li a:hover:after {
+    -webkit-animation: circle 1.5s ease-in forwards;
+    animation: circle 1.5s ease-in forwards;
+}
+
+@keyframes circle {
+    0% {
+        width: 1px;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        margin: auto;
+        height: 1px;
+        z-index: -1;
+        background: #eee;
+        border-radius: 100%;
+    }
+    100% {
+        background: #aaa;
+        height: 5000%;
+        width: 5000%;
+        z-index: -1;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        margin: auto;
+        border-radius: 0;
+    }
+}
+
+.carousel-indicators>li {
+    background-color: #d00a2c;
+}
+
+.navbar-brand {
+    padding: 0;
+}
+
+.navbar-brand>img {
+    height: 90px;
+    padding: 15px;
+    width: 90px;
+}
+
+.navbar>li>a {
+    padding-top: 30px;
+    padding-bottom: 30px;
+}
+
+.navbar-toggler {
+    padding: 10px;
+    margin: 25px 15px 25px 0;
+}
+
+.header{
+    width: 100%;
+    margin-top: 89px;
+    font-family: 'Avenir Next' !important;
+    background-color: #d00a2c;
+    color: #fff;
+}
+
+.header .jumbotron-fluid {
+    background-color: #d00a2c;
+    margin-bottom: 0;
+}
+
+.carousel-item {
+    height: 100vh;
+    min-height: 300px;
+    background: no-repeat center center scroll;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+
+/* Section 2 */
+.section-2 {
+    font-family: 'Avenir Next' !important;
+    padding: 100px;
+}
+.section-about {
+    margin-bottom: 0;
+    height: auto;
+    padding: 30px 100px 100px; 
+}
+.section-about .image-about {
+    position: relative;
+    top: 0;
+}
+
+.section-about img{
+    width: auto;
+    height: 300px;
+}
+
+.section-about .content-about span {
+    font-weight: bold;
+    color: #d00a2c;
+}
+
+.section-article .card-deck .card {
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12),
+    0 1px 2px rgba(0, 0, 0, 0.24);
+    transition: all 0.3s cubic-bezier(.25, .8, .25, 1);
+}
+
+.section-article .card-deck .card:hover {
+     box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25),
+     0 10px 10px rgba(0, 0, 0, 0.22);
+}
+
+.section-2 .section-2-logo {
+    text-align: center;
+    border: 2px solid #000;
+    border-radius: 50%;
+    margin: auto;
+    font-size: 150px;
+    width: 250px;
+    height: 250px;
+}
+
+.section-2 .section-2-logo:hover {
+   box-shadow: 0px 0px 30px #000000;
+   z-index: 2;
+   -webkit-transition: all 200ms ease-in;
+   -webkit-transform: scale(1.2);
+   -ms-transition: all 200ms ease-in;
+   -ms-transform: scale(1.2);
+   -moz-transition: all 200ms ease-in;
+   -moz-transform: scale(1.2);
+   transition: all 200ms ease-in;
+   transform: scale(1.2);
+   background-color: #d00a2c;
+   color: #fff;
+   margin-bottom:  20px;
+   border: none;
+   cursor: pointer;
+}
+
+.section-2 .section-2-logo .fa {
+    display: inline-block;
+    text-align: center;
+    vertical-align: middle;
+}   
+
+/* Section 3 */
+.section-3 {
+    font-family: 'Avenir Next' !important;
+    background: url('../assets/img/bg-counter.jpg');
+    /* Set a specific height */
+    /* Create the parallax scrolling effect */
+
+    background-attachment: fixed;
+    -webkit-background-attachment: fixed;
+    -moz-background-attachment: fixed;
+    -o-background-attachment: fixed;
+
+    background-position: center;
+    -webkit-background-position: center;
+    -moz-background-position: center;
+    -o-background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+
+    padding: 100px;
+    color: #fff;
+}
+
+.parralax-article {
+    font-family: 'Avenir Next' !important;
+    background: url('https://catatankuliahnya.files.wordpress.com/2008/10/psikm001.jpg');
+    background-attachment: fixed;
+    -webkit-background-attachment: fixed;
+    -moz-background-attachment: fixed;
+    -o-background-attachment: fixed;
+    background-position: center;
+    -webkit-background-position: center;
+    -moz-background-position: center;
+    -o-background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+     color: #fff;
+}
+
+.parralax-activities {
+    font-family: 'Avenir Next' !important;
+    background: url('http://ecampus.hisvietnam.com/university/files/2015/08/Sport-29e170c.jpg');
+    background-attachment: fixed;
+    -webkit-background-attachment: fixed;
+    -moz-background-attachment: fixed;
+    -o-background-attachment: fixed;
+    background-position: center;
+    -webkit-background-position: center;
+    -moz-background-position: center;
+    -o-background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    color: #fff;
+}
+
+.section-3 img {
+    height: 90px;
+    padding: 15px;
+    width: 90px;
+}
+
+.img-animated-section3:hover {
+    color: #d00a2c;
+}
+
+/* Section-4 */
+.section-4 {
+    font-family: 'Avenir Next' !important;
+    background-color: #fff;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    padding: 25px 0 50px;
+}
+
+.section-4 .card{
+    margin-bottom: 50px;
+    cursor: pointer;
+    width: 100% !important;
+}
+
+.section-4 .card img {
+    -webkit-transition: all 300ms ease-out;
+    -moz-transition: all 300ms ease-out;
+    -o-transition: all 300ms ease-out;
+    -ms-transition: all 300ms ease-out;
+    transition: all 300ms ease-out;
+}
+
+.section-4 .card .img-preview {
+    background-color: rgba(208, 10, 44, 0.8);
+    opacity: 0.5;
+    position: absolute;
+    color: #fff;
+    z-index: 100;
+    -webkit-transition: all 300ms ease-out;
+    -moz-transition: all 300ms ease-out;
+    -o-transition: all 300ms ease-out;
+    -ms-transition: all 300ms ease-out;
+    transition: all 300ms ease-out;
+    left: 0;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    text-align: left;
+    padding: 15px;
+}
+
+.main-article {
+    font-family: 'Avenir Next' !important;
+    background-color: #fff;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    padding: 25px 0 50px;
+}
+
+.recent-post {
+    font-family: 'Avenir Next' !important;
+    background-color: #fff;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    padding: 25px 0 50px;
+}
+
+.card:hover .fade-caption {
+    opacity: 1;
+}
+
+/* section-5 */
+.section-5 {
+    font-family: 'Avenir Next' !important;
+    background-color: #d00a2c;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    padding: 25px 0 50px;
+    color: #fff;
+}
+
+/* footer */
+footer {
+    font-family: 'Avenir Next' !important;
+}
+
+footer.footer-sc {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+}
+
+.logo-twitter {
+    color: #00aced;
+}
+
+.logo-fb {
+    color: #3b5998;
+}
+
+.logo-instagram {
+    color: #bc2a8d;
+}
+
+.logo-youtube {
+    color: #db4437;
+}
+
+.modal {
+    font-family: 'Avenir Next' !important;
+}
+
+@media only screen and (max-width: 500px) {
+    header .carousel .carousel-inner .carousel-item{
+        width: 100%;
+    }
+
+    #catalogs {
+        text-align: center;
+    }
+
+    .title-sc {
+        font-size: 60px;
+    }
+    .section-2 {
+        padding: 60px;
+    }
+
+    .section-2 .section-2-logo {
+        text-align: center;
+        border: 2px solid #000;
+        border-radius: 50%;
+        margin: 10px auto 10px;
+        font-size: 95px;
+        width: 150px;
+        height: 150px;
+    }
+
+    .section-2 .image-about {
+        text-align: center;
+    }
+    
+    footer {
+        overflow: hidden;
+        text-align: center;
+    }
+
+    footer .pull-right {
+        float: none !important;
+    }
+
+    footer i{
+        margin-top: 15px;
+        text-align: center;
+    }
+
+    footer{
+        position: static;
+    }
+
+    .card {
+        margin-bottom: 20px;
+    }
+}
+
+@keyframes fadein {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+/* Firefox < 16 */
+@-moz-keyframes fadein {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+/* Safari, Chrome and Opera > 12.1 */
+@-webkit-keyframes fadein {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+/* Internet Explorer */
+@-ms-keyframes fadein {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* Opera < 12.1 */
+@-o-keyframes fadein {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
