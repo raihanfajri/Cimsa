@@ -16,10 +16,8 @@ class articlesController extends Controller
     public function index()
     {
         //
-        $user = auth()->user();
-        $id = $user->id;
         $articles = articles::all();
-        
+        return view('admin.pages.articles',['articles'=>$articles]);
     }
 
     /**
@@ -92,6 +90,20 @@ class articlesController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $articles = articles::where('id',$id)->get();
+        $articles->title = $request->title;
+        $articles->author = $request->author;
+        $articles->content = $request->content;
+        if ($request->hasFile('image')) 
+        {
+            $datetime = new DateTime();
+            $file_name = 'articles_' + $datetime->format('YmdHis');
+            $path = '/images/articles/';
+            $fullpath = $path + $file_name;
+            $save = $request->image->storeAs('images',$fullpath);
+            $articles->image = $fullpath;
+        }
+        $articles->save();
     }
 
     /**
@@ -103,5 +115,7 @@ class articlesController extends Controller
     public function destroy($id)
     {
         //
+        $articles = articles::where('id',$id)->get();
+        $articles->delete();
     }
 }
