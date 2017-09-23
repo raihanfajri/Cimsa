@@ -1,6 +1,6 @@
 @font-face {
     font-family: 'Avenir Next';
-    src: url("../assets/fonts/AvenirNextLTPro-Regular.otf");
+    src: url("/fonts/AvenirNextLTPro-Regular.otf");
     /* File to be stored at your site */
 }
 
@@ -238,7 +238,7 @@ nav ul li a:hover:after {
 /* Section 3 */
 .section-3 {
     font-family: 'Avenir Next' !important;
-    background: url('../assets/img/bg-counter.jpg');
+    background: url('/img/bg-counter.jpg');
     /* Set a specific height */
     /* Create the parallax scrolling effect */
 
