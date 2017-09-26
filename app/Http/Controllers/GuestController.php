@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 class GuestController extends Controller
 {
     public function showArticles() {
-        
         $data = [
             'title' => 'ARTICLES',
             'id' => '2'
@@ -15,14 +14,20 @@ class GuestController extends Controller
         return view('articles')->with(compact('data'));
     }
 
-
     public function showArticlesDetail() {
         return view('articles-detail');
     }
 
     public function showActivities() {
-        $title = 'ACTIVITIES';
-        return view('activities', compact('title'));
+        $data = [
+            'title' => 'ACTIVITIES',
+            'id' => '2'
+        ];
+        return view('activities', compact('data'));
+    }
+
+    public function showActivityDetail() {
+        return view('activity-detail'); 
     }
 
     public function showStandingCommittees() {

@@ -7,11 +7,12 @@
     <meta name="author" content="Miqdad and Raihan">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>CIMSA </title>
+    <title>CIMSA UNAND</title>
 
     <link rel="shortcut icon" href="{{ asset('img/logo/logo-primary.png') }}">
     <link rel="stylesheet" href="{{ asset('/vendor/bootstrap/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('/vendor/font-awesome/css/font-awesome.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('/css/jquery.fancybox.min.css')}}">
     <link rel="stylesheet" href="{{ asset('/css/styles.css') }}">
 </head>
 <body>
@@ -40,8 +41,10 @@
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownLink">
                         <a href="{{ url('about', 'cimsa') }}" class="dropdown-item">CIMSA</a>
-                        <a href="#" class="dropdown-item">Official Partners</a>
-                        <a href="#" class="dropdown-item">Alumni</a>
+                        <a href="{{ url('about', 'official-partners') }}" class="dropdown-item">Official Partners</a>
+                        <div class="dropdown-divider"></div>
+                        <a href="{{ url('about/alumni/directory') }}" class="dropdown-item">Our Alumni</a>
+                        <a href="{{ url('about/alumni/alumni-of-the-month') }}" class="dropdown-item">Alumni of The Month</a>
                     </div>
                 </li>
                 <li class="nav-item {{ Request::is('articles') ? 'active' : '' }}">
@@ -66,7 +69,7 @@
     @yield('content')
 
     <!-- Footer -->
-    <footer class="py-5 bg-dark {{ Request::is('standing-committees') ? 'footer-sc' : '' }}">
+    <footer class="py-5 bg-dark {{ Request::is('standing-committees')  ? 'footer-sc' : '' }}">
         <div class="container">
             <div class="row">
                 <div class="col-md-6 pull-left">
@@ -116,6 +119,7 @@
     <script src="{{ asset('vendor/bootstrap/js/bootstrap.min.js') }}"></script>
     <script src="{{ asset('js/counter.js') }}"></script>
     <script src="{{ asset('js/scrollreveal.min.js') }}"></script>
+    <script src="{{ asset('js/jquery.fancybox.min.js') }}"></script>
     <script src="{{ asset('js/script.js') }}"></script>
     <script src="https://platform.twitter.com/widgets.js"></script>
     <script src="http://lightwidget.com/widgets/lightwidget.js"></script>

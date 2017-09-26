@@ -16,18 +16,38 @@ Route::get('/', 'HomepageController@index');
 Route::group(['prefix'=>'about'], function(){
     Route::get('cimsa', function() {
         $title = 'CIMSA';
-        return view('about')->with(compact('title'));
+        return view('about.about')->with(compact('title'));
+    });
+
+    Route::get('official-partners', function(){
+        return view('about.official-partner');
+    });
+
+    Route::get('alumni', function(){
+        return view('about.alumni');
+    });
+
+    Route::get('alumni/alumni-of-the-month', function(){
+        return view('about.alumni.alumni-otm');
+    });
+
+    Route::get('alumni/directory', function(){
+        return view('about.alumni.alumni-directory');
     });
 });
 
 Route::get('/articles', 'GuestController@showArticles');
-
 Route::get('/articles/{articleId}', [
     'as' => 'articles.detail',
     'uses' => 'GuestController@showArticlesDetail'
 ]);
 
 Route::get('/activities', 'GuestController@showActivities');
+Route::get('/activities/{activityId}', [
+    'as' => 'activity.detail',
+    'uses' => 'GuestController@showActivityDetail'
+]);
+
 Route::get('/standing-committees', 'GuestController@showStandingCommittees');
 Route::group(['prefix'=>'standing-committees'], function(){
     Route::get('/scome', function(){

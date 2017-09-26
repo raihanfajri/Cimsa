@@ -4,7 +4,7 @@
     <header class="header">
         <div class="jumbotron jumbotron-fluid">
             <div class="container text-center">
-                <h1 class="display-3 img-animated-section2"><b>{{ $title }}</b></h1>
+                <h1 class="display-3 img-animated-section2"><b>{{ $data['title'] }}</b></h1>
             </div>
         </div>
     </header>
@@ -18,7 +18,7 @@
                     <p class="card-text"><small class="text-muted">Posted :6 September 2017</small></p>
                     <h4 class="card-title">Card title</h4>
                     <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content
-                        is a little bit longer. <a href="/activities-detail.html#disqus_thread">[ Read more.... ]</a></p>
+                        is a little bit longer. <a href="{{ route('activity.detail', $data['id']) }}">[ Read more.... ]</a></p>
                 </div>
             </div>
             <div class="card img-animated-section2">
@@ -27,7 +27,8 @@
                 <div class="card-body">
                     <p class="card-text"><small class="text-muted">Posted :6 September 2017</small></p>
                     <h4 class="card-title">Card title</h4>
-                    <p class="card-text">This card has supporting text below as a natural lead-in to additional content. <a href="/activities-detail.html#disqus_thread">[ Read more.... ]</a></p>
+                    <p class="card-text">This card has supporting text below as a natural lead-in to additional content. 
+                    <a href="{{ route('activity.detail', $data['id']) }}">[ Read more.... ]</a></p>
                 </div>
             </div>
             <div class="card img-animated-section2">
@@ -37,7 +38,8 @@
                     <p class="card-text"><small class="text-muted">Posted :6 September 2017</small></p>
                     <h4 class="card-title">Card title</h4>
                     <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This card
-                        has even longer content than the first to show that equal height action. <a href="/activities-detail.html#disqus_thread">[ Read more.... ]</a></p>
+                        has even longer content than the first to show that equal height action. 
+                        <a href="{{ route('activity.detail', $data['id']) }}">[ Read more.... ]</a></p>
                 </div>
             </div>
         </div>
@@ -61,6 +63,7 @@
             </ul>
         </div>
     </section>
+    
 
     @include('login')
 @endsection

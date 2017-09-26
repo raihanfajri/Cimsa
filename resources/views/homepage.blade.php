@@ -38,7 +38,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-6 text-center img-animated-section2">
-                    <a href="/about.html" style="text-decoration: none; color: #000 !important;">
+                    <a href="{{ url('about', 'cimsa') }}" style="text-decoration: none; color: #000 !important;">
                         <div class="section-2-logo text-center">
                             <i class="fa fa-rocket" aria-hidden="true"></i>
                         </div>
@@ -204,6 +204,6 @@
         </div>
     </section>
 
-    @include('login');
+    @include('login')
 
 @endsection
