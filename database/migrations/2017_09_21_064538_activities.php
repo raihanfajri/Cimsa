@@ -18,7 +18,7 @@ class Activities extends Migration
             $table->increments('id');
             $table->string('title');
             $table->string('author');
-            $table->string('content');
+            $table->text('content');
             $table->string('image')->nullable();
             $table->timestamps();
         });

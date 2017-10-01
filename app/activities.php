@@ -9,6 +9,6 @@ class activities extends Model
     //
     protected $table='activities';
     protected $fillable = [
-        'title', 'author', 'content','image','created_at','change_at'
+        'title', 'author', 'content','image'
     ];
 }

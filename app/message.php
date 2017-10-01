@@ -4,11 +4,11 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class catalogs extends Model
+class message extends Model
 {
     //
-    protected $table='catalogs';
+    protected $table='message';
     protected $fillable = [
-        'name', 'price', 'description','image'
+        'name', 'email', 'messagecontent'
     ];
 }

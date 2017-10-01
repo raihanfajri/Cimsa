@@ -14,6 +14,17 @@
     <link rel="stylesheet" href="{{ asset('/vendor/font-awesome/css/font-awesome.min.css') }}">
     <link rel="stylesheet" href="{{ asset('/css/jquery.fancybox.min.css')}}">
     <link rel="stylesheet" href="{{ asset('/css/styles.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.25.0/codemirror.min.css">
+    <link rel="stylesheet" href="{{asset('/css/froala_style.min.css')}}">
+    <link rel="stylesheet" href="{{asset('/css/froala_editor.pkgd.min.css')}}">
+    <link rel="stylesheet" href="{{asset('/css/froala_editor.min.css')}}">
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" href="{{asset('/vendor/datatables-plugins/dataTables.bootstrap.css')}}">
+    <!-- DataTables Responsive CSS -->
+    <link rel="stylesheet" href="{{asset('/vendor/datatables-responsive/dataTables.responsive.css')}}">
+    <!-- Sweetalert2 CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.10/sweetalert2.min.css">
+    @yield('css')
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-light fixed-top">
@@ -121,8 +132,31 @@
     <script src="{{ asset('js/scrollreveal.min.js') }}"></script>
     <script src="{{ asset('js/jquery.fancybox.min.js') }}"></script>
     <script src="{{ asset('js/script.js') }}"></script>
+    <script type="text/javascript" src="{{asset('/js/froala_editor.pkgd.min.js')}}"></script>
     <script src="https://platform.twitter.com/widgets.js"></script>
     <script src="http://lightwidget.com/widgets/lightwidget.js"></script>
+    <!-- DataTables JavaScript -->
+    <script type="text/javascript" src="{{asset('/vendor/datatables/js/jquery.dataTables.min.js')}}"></script>
+    <script type="text/javascript" src="{{asset('/vendor/datatables-plugins/dataTables.bootstrap.min.js')}}"></script>
+    <script type="text/javascript" src="{{asset('/vendor/datatables-responsive/dataTables.responsive.js')}}"></script>
+    <!-- SweetAlert 2 JavaScript -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.10/sweetalert2.min.js"></script>
     @yield('script')
+    <script>
+        $('.pagination').addClass('mx-auto')
+        $('.pagination').children().addClass('page-item')
+        $('.pagination').children().children('a').addClass('page-link')
+        $('.pagination').children().children('span').addClass('page-link')
+    </script>
+    @if(session('completemessage'))
+        <script>
+            console.log("{{ session('completemessage') }}")
+            swal(
+                'Konfirmasi Pesan',
+                "{{ session('completemessage') }}",
+                'success'
+            )
+        </script>
+    @endif
 </body>
 </html>

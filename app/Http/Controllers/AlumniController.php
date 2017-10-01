@@ -7,11 +7,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\View;
 use App\User;
-use App\activities;
+use App\alumni;
 use DataTables;
 use Yajra\DataTables\Html\Builder;
 
-class activitiesController extends Controller
+class AlumniController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -22,28 +22,27 @@ class activitiesController extends Controller
     {
         //
         if($request->ajax()) {
-            $activities = activities::select(['id','title','updated_at','author']);
-            return Datatables::of($activities)
-                ->addColumn('action', function($activities){
+            $alumni = alumni::select(['id','nama','sco','batch','image']);
+            return Datatables::of($alumni)
+                ->addColumn('action', function($alumni){
                     return view('datatables._action', [
-                        'model'=>$activities,
-                        'id'=>$activities->id,
-                        'form_url'=>'admin/destroy/'.$activities->id,
-                        'confirm_message'=>'Yakin ingin menghapus '.$activities->title.' ?'
+                        'model'=>$alumni,
+                        'id'=>$alumni->id,
+                        'form_url'=>'admin/alumni/destroy/'.$alumni->id,
+                        'confirm_message'=>'Yakin ingin menghapus '.$alumni->nama.' ?'
                     ]);
-                })
-                ->editColumn('updated_at', function ($activities) {
-                    return $activities->updated_at->format('d F Y');
                 })
                 ->toJson();
         }
+        $path = $request->root()."/images/Alumni/";
         $html = $htmlBuilder
-                ->Columns([['data'=>'title', 'name'=>'title', 'title'=>'Title'],
-                    ['data'=>'updated_at', 'name'=>'updated_at', 'title'=>'Date'],
-                    ['data'=>'author', 'name'=>'author', 'title'=>'Author'],
+                ->Columns([['data'=>'nama', 'name'=>'nama', 'title'=>'Nama'],
+                    ['data'=>'sco', 'name'=>'sco', 'title'=>'SCO'],
+                    ['data'=>'batch', 'name'=>'batch', 'title'=>'Batch'],
+                    ['data'=>'image', 'name'=>'image', 'title'=>'Foto', 'render' => '"<img src=\"'.$path.'"+data+"\" height=\"50\"/>"'],
                     ['data'=>'action', 'name'=>'action', 'title'=>'Action', 
                 'orderable'=>'false', 'searchable'=>'false']]);
-        return view('admin.pages.activities')->with(compact('html'));
+        return view('admin.pages.alumni')->with(compact('html'));
     }
 
     /**
@@ -64,25 +63,25 @@ class activitiesController extends Controller
      */
     public function store(Request $request)
     {
-        //Create new activities
-        $activities = new activities;
-        $activities->title = $request->title;
-        $activities->author = $request->author;
-        $activities->content = $request->content;
+        //Create new alumni
+        $alumni = new alumni;
+        $alumni->nama = $request->nama;
+        $alumni->sco = $request->sco;
+        $alumni->batch = $request->batch;
         if ($request->hasFile('inputfreqd')) 
         {
             $uploaded_img = $request->file('inputfreqd');
             $extension = $uploaded_img[0]->getClientOriginalExtension();
             $filename = md5(time()).'.'.$extension;
-            $destinationPath = public_path() . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . 'activities';
+            $destinationPath = public_path() . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . 'alumni';
             $uploaded_img[0]->move($destinationPath, $filename);
-            $activities->image = $filename;
+            $alumni->image = $filename;
         }
         else{
             
             Log::info($request->all());
         }
-        $activities->save();
+        $alumni->save();
         return redirect()->back();
     }
 
@@ -108,14 +107,14 @@ class activitiesController extends Controller
         //
         if($request->ajax())
         {
-            $activities = activities::find($id);
-            $activities->image = '/images/activities/' . $activities->image;
+            $alumni = alumni::find($id);
+            $alumni->image = '/images/alumni/' . $alumni->image;
             $previewimage = View::make('layouts._imgpreview', [
-                            'image'=>$activities->image,
-                            'name'=>$activities->title
+                            'image'=>$alumni->image,
+                            'name'=>$alumni->title
                             ]);
             $previewimage = (string) $previewimage;
-            return response()->json(['data'=>$activities,'imgpreview'=>$previewimage]);
+            return response()->json(['data'=>$alumni,'imgpreview'=>$previewimage]);
         }
     }
 
@@ -129,14 +128,14 @@ class activitiesController extends Controller
     public function update(Request $request, $id)
     {
         //
-        $activities = activities::find($id);
-        $activities->title = $request->edittitle;
-        $activities->author = $request->editauthor;
-        $activities->content = $request->editcontent;
-        $imgname = $activities->image;
+        $alumni = alumni::find($id);
+        $alumni->nama = $request->editnama;
+        $alumni->sco = $request->editsco;
+        $alumni->batch = $request->editbatch;
+        $imgname = $alumni->image;
         if ($request->hasFile('inputfreqd')) 
         {        
-            $destinationPath = public_path() . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . 'activities';
+            $destinationPath = public_path() . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . 'alumni';
             $fullpath = $destinationPath . DIRECTORY_SEPARATOR . $imgname;
             try
             {
@@ -150,15 +149,15 @@ class activitiesController extends Controller
             $uploaded_img = $request->file('inputfreqd');
             $extension = $uploaded_img[0]->getClientOriginalExtension();
             $filename = md5(time()).'.'.$extension;
-            $destinationPath = public_path() . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . 'activities';
+            $destinationPath = public_path() . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . 'alumni';
             $uploaded_img[0]->move($destinationPath, $filename);
-            $activities->image = $filename;
+            $alumni->image = $filename;
         }
         else{
             
             Log::info($request);
         }
-        $activities->save();
+        $alumni->save();
         return redirect()->back();
     }
 
@@ -170,12 +169,12 @@ class activitiesController extends Controller
      */
     public function destroy($id)
     {
-        //
-        $activities = activities::find($id);
-        $imgname = $activities->image;
-        if($activities->delete())
+        //Delete item
+        $alumni = alumni::find($id);
+        $imgname = $alumni->image;
+        if($alumni->delete())
         {
-            $destinationPath = public_path() . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . 'activities';
+            $destinationPath = public_path() . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . 'alumni';
             $fullpath = $destinationPath . DIRECTORY_SEPARATOR . $imgname;
             try
             {
@@ -186,7 +185,7 @@ class activitiesController extends Controller
                 Log::info($e);   
             }
         }
-        $completemessage = 'Activity has been deleted';
+        $completemessage = 'Alumni has been deleted';
         return redirect()->back()->with('completemessage',$completemessage);
     }
 }

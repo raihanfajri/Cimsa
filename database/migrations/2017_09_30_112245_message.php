@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class Articles extends Migration
+class Message extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,11 @@ class Articles extends Migration
      */
     public function up()
     {
-        //
-        Schema::create('articles', function (Blueprint $table) {
+        Schema::create('message', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('title');
-            $table->string('author');
-            $table->text('content');
-            $table->string('image')->nullable();
+            $table->string('name');
+            $table->string('email');
+            $table->text('messagecontent');
             $table->timestamps();
         });
     }
@@ -31,7 +29,6 @@ class Articles extends Migration
      */
     public function down()
     {
-        //
-        Schema::dropIfExists('articles');
+        Schema::dropIfExists('message');
     }
 }

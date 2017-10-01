@@ -31,9 +31,7 @@ Route::group(['prefix'=>'about'], function(){
         return view('about.alumni.alumni-otm');
     });
 
-    Route::get('alumni/directory', function(){
-        return view('about.alumni.alumni-directory');
-    });
+    Route::get('alumni/directory','GuestController@showAlumni');
 });
 
 Route::get('/articles', 'GuestController@showArticles');
@@ -77,5 +75,28 @@ Route::group(['prefix'=>'standing-committees'], function(){
 });
 Route::get('catalogs', 'GuestController@showCatalogs');
 Route::group(['prefix'=>'admin'], function(){
+    Route::get('/','DashboardController@index');
     Route::get('/catalogs','CatalogsController@index');
+    Route::post('/catalogs/store','CatalogsController@store');
+    Route::get('/catalogs/edit/{id}', 'CatalogsController@edit');
+    Route::put('/catalogs/update/{id}', 'CatalogsController@update');
+    Route::delete('/catalogs/destroy/{id}', 'CatalogsController@destroy');
+    Route::get('/activities','ActivitiesController@index');
+    Route::post('/activities/store','ActivitiesController@store');
+    Route::get('/activities/edit/{id}','ActivitiesController@edit');
+    Route::put('/activities/update/{id}','ActivitiesController@update');
+    Route::delete('/activities/destroy/{id}','ActivitiesController@destroy');
+    Route::get('/articles','ArticlesController@index');
+    Route::post('/articles/store','ArticlesController@store');
+    Route::get('/articles/edit/{id}','ArticlesController@edit');
+    Route::post('/articles/update/{id}','ArticlesController@update');
+    Route::delete('/articles/destroy/{id}','ArticlesController@destroy');
+    Route::get('/alumni','AlumniController@index');
+    Route::post('/alumni/store','AlumniController@store');
+    Route::get('/alumni/edit/{id}','AlumniController@edit');
+    Route::post('/alumni/update/{id}','AlumniController@update');
+    Route::delete('/alumni/destroy/{id}','AlumniController@destroy');
+    Route::get('/message','MessageController@index');
+    Route::delete('message/destroy/{id}','MessageController@destroy');
 });
+Route::post('/sendMsg','MessageController@store');

@@ -9,6 +9,7 @@
     <meta name="author" content="">
 
     <title>CIMSA UNAND | ADMIN</title>
+    @yield('css')
     <link rel="shortcut icon" href="{{asset('logo/logo-primary.png')}}" />
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" type="text/css" href="{{asset('/vendor/bootstrap-admin/css/bootstrap.min.css')}}">
@@ -56,19 +57,25 @@
         <div class="sidebar-nav navbar-collapse">
             <ul class="nav" id="side-menu">
                 <li>
-                    <a href="dashboard.html"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
+                    <a href="{{ url('admin/') }}"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
                 </li>
                 <li>
                     <a href="#"><i class="fa fa-star"></i> Pages<span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
                         <li>
-                            <a href="/articles">Articles</a>
+                            <a href="{{ url('admin/articles') }}" class="{{ Request::is('admin/articles') ? 'active' : '' }}">Articles</a>
                         </li>
                         <li>
-                            <a href="/activities">Activities</a>
+                            <a href="{{ url('admin/activities') }}" class="{{ Request::is('admin/activities') ? 'active' : '' }}">Activities</a>
                         </li>
                         <li>
-                            <a href="/catalogs">Catalogs</a>
+                            <a href="{{ url('admin/catalogs') }}" class="{{ Request::is('admin/catalogs') ? 'active' : '' }}">Catalogs</a>
+                        </li>
+                        <li>
+                            <a href="{{ url('admin/alumni') }}" class="{{ Request::is('admin/alumni') ? 'active' : '' }}">Alumni</a>
+                        </li>
+                        <li>
+                            <a href="{{ url('admin/message') }}" class="{{ Request::is('admin/message') ? 'active' : '' }}">Message Inbox</a>
                         </li>
                     </ul>
                     <!-- /.nav-second-level -->
@@ -90,6 +97,7 @@
 <!-- Krajee file input JavaScript -->
 <script type="text/javascript" src="{{asset('/js/purify.min.js')}}"></script>
 <script type="text/javascript" src="{{asset('/js/fileinput.min.js')}}"></script>
+<script type="text/javascript" src="{{asset('/js/froala_editor.pkgd.min.js')}}"></script>
 <!-- Metis Menu Plugin JavaScript -->
 <script type="text/javascript" src="{{asset('/vendor/metisMenu/metisMenu.min.js')}}"></script>
 <!-- DataTables JavaScript -->
@@ -118,10 +126,44 @@
             overwriteInitial: false,
             allowedFileExtensions: ["jpg", "png", "gif"]
         });
+        $(".edit-upload-image").fileinput({
+            showUpload: false,
+            showRemove: false,
+            required: false,
+            validateInitialCount: true,
+            overwriteInitial: false,
+            allowedFileExtensions: ["jpg", "png", "gif"]
+        });
+        $(".edit-upload-image").change(function(){
+            $('.preview-image').html('')
+        })
         $('#input').on('fileerror', function (event, data, msg) {
             // get message
             alert(msg);
         });
     });
+    function submitdelete(){
+        swal({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then(function () {
+            $('#deleteform').submit();
+        })
+    }
 </script>
+@if(session('completemessage'))
+    <script>
+        swal(
+            'Deleted!',
+            "{{ session('completemessage') }}",
+            'success'
+        )
+    </script>
+@endif
+@yield('script')
 </html>

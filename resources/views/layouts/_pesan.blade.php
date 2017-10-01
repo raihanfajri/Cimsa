@@ -1,7 +1,7 @@
 <div class="card-default bg-light mb-3 clearfix">
   <div class="card-body">
     <h4 class="card-title">Send Message for CIMSA</h4>
-    {!! Form::open(['url'=>'/sendMsg']) !!}
+    {!! Form::open(['url'=>url("sendMsg"),'method'=>'post']) !!}
         <div class="form-group {{ $errors->has('nama') ? 'has-error' : '' }}">
             {!! Form::label('nama', 'Name', ['class'=>'control-label']) !!}
             {!! Form::text('nama', null, ['class'=>'form-control', 'required']) !!}
