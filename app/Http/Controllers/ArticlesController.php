@@ -10,6 +10,7 @@ use App\User;
 use App\articles;
 use DataTables;
 use Yajra\DataTables\Html\Builder;
+use Hashids;
 
 class ArticlesController extends Controller
 {
@@ -18,17 +19,20 @@ class ArticlesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request, Builder $htmlBuilder)
+    public function index(Builder $htmlBuilder)
     {
-        //
+        return view('admin.pages.articles');
+    }
+    public function datatablesRequest(Request $request)
+    {
         if($request->ajax()) {
             $articles = articles::select(['id','title','updated_at','author']);
             return Datatables::of($articles)
                 ->addColumn('action', function($articles){
                     return view('datatables._action', [
                         'model'=>$articles,
-                        'id'=>$articles->id,
-                        'form_url'=>'admin/articles/destroy/'.$articles->id,
+                        'id'=>Hashids::encode($articles->id),
+                        'form_url'=>'admin/articles/destroy/'.Hashids::encode($articles->id),
                         'confirm_message'=>'Yakin ingin menghapus '.$articles->title.' ?'
                     ]);
                 })
@@ -37,15 +41,10 @@ class ArticlesController extends Controller
                 })
                 ->toJson();
         }
-        $html = $htmlBuilder
-                ->Columns([['data'=>'title', 'name'=>'title', 'title'=>'Title'],
-                    ['data'=>'updated_at', 'name'=>'updated_at', 'title'=>'Date'],
-                    ['data'=>'author', 'name'=>'author', 'title'=>'Author'],
-                    ['data'=>'action', 'name'=>'action', 'title'=>'Action', 
-                'orderable'=>'false', 'searchable'=>'false']]);
-        return view('admin.pages.articles')->with(compact('html'));
+        else{
+            abort(404);
+        }
     }
-
     /**
      * Show the form for creating a new resource.
      *
@@ -108,7 +107,8 @@ class ArticlesController extends Controller
         //
         if($request->ajax())
         {
-            $articles = articles::find($id);
+            $id = Hashids::decode($id);
+            $articles = articles::find($id[0]);
             $articles->image = '/images/articles/' . $articles->image;
             $previewimage = View::make('layouts._imgpreview', [
                             'image'=>$articles->image,
@@ -116,6 +116,9 @@ class ArticlesController extends Controller
                             ]);
             $previewimage = (string) $previewimage;
             return response()->json(['data'=>$articles,'imgpreview'=>$previewimage]);
+        }
+        else{
+            abort(404);
         }
     }
 
@@ -129,7 +132,8 @@ class ArticlesController extends Controller
     public function update(Request $request, $id)
     {
         //
-        $articles = articles::find($id);
+        $id = Hashids::decode($id);
+        $articles = articles::find($id[0]);
         $articles->title = $request->edittitle;
         $articles->author = $request->editauthor;
         $articles->content = $request->editcontent;
@@ -170,9 +174,9 @@ class ArticlesController extends Controller
      */
     public function destroy($id)
     {
-        //
         //Delete item
-        $articles = articles::find($id);
+        $id = Hashids::decode($id);
+        $articles = articles::find($id[0]);
         $imgname = $articles->image;
         if($articles->delete())
         {

@@ -1,4 +1,9 @@
-@font-face {font-family: 'Avenir Next';src: url("../assets/fonts/AvenirNextLTPro-Regular.otf");/* File to be stored at your site */}
+@font-face {
+    font-family: 'Avenir Next';
+    src: url("/fonts/AvenirNextLTPro-Regular.otf");
+    /* File to be stored at your site */
+}
+/* File to be stored at your site */}
 /*!
  * Start Bootstrap - SB Admin 2 v3.3.7+1 (http://startbootstrap.com/template-overviews/sb-admin-2)
  * Copyright 2013-2016 Start Bootstrap

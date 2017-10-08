@@ -4,11 +4,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Alumni;
+use App\Alumniofthemonth;
 use App\Articles;
 use App\Activities;
 use App\Catalogs;
 use DataTables;
 use Yajra\DataTables\Html\Builder;
+use Hashids;
 
 class GuestController extends Controller
 {
@@ -17,11 +19,15 @@ class GuestController extends Controller
             'title' => 'ARTICLES'
         ];
         $articles = articles::orderBy('updated_at','desc')->paginate(3);
+        foreach($articles as $article){
+            $article->id = Hashids::encode($article->id);
+        }
         return view('articles')->with(compact('data'))->with(compact('articles'));
     }
 
     public function showArticlesDetail($id) {
-        $articles = articles::find($id);
+        $id = Hashid::decode($id);
+        $articles = articles::find($id[0]);
         $recentpost = articles::orderBy('updated_at','desc')->paginate(5);
         if(empty($articles)){
             abort(404);
@@ -37,11 +43,15 @@ class GuestController extends Controller
             'title' => 'ACTIVITIES'
         ];
         $activities = activities::orderBy('updated_at','desc')->paginate(3);
+        foreach($activities as $activity){
+            $activity->id = Hashids::encode($activity->id);
+        }
         return view('activities', compact('data'))->with(compact('activities'));
     }
 
     public function showActivityDetail($id) {
-        $activities = activities::find($id);
+        $id = Hashid::decode($id);
+        $activities = activities::find($id[0]);
         $recentpost = activities::orderBy('updated_at','desc')->paginate(5);
         if(empty($activities)){
             abort(404);
@@ -67,17 +77,14 @@ class GuestController extends Controller
     }
 
     public function showAlumni(Request $request, Builder $htmlBuilder){
-        if($request->ajax()) {
-            $alumni = alumni::select(['id','nama','sco','batch','image']);
-            return Datatables::of($alumni)->toJson();
-        }
-        $path = $request->root()."/images/Alumni/";
-        $html = $htmlBuilder
-                ->Columns([['data'=>'nama', 'name'=>'nama', 'title'=>'Nama'],
-                    ['data'=>'sco', 'name'=>'sco', 'title'=>'SCO'],
-                    ['data'=>'batch', 'name'=>'batch', 'title'=>'Batch'],
-                    ['data'=>'image', 'name'=>'image', 'title'=>'Foto', 
-                    'render' => '"<img src=\"'.$path.'"+data+"\" height=\"130px\" width=\"140px\"/>"']]);
-        return view('about.alumni.alumni-directory')->with(compact('html'));
+        $alumni = alumni::select(['nama','sco','batch','image'])->paginate(10);
+        return view('about.alumni.alumni-directory')->with(compact('alumni'));
+    }
+
+    public function showAlumniOfTheMonth()
+    {
+        $alumniotm = alumniofthemonth::first();
+        $alumni = alumni::find($alumniotm->id_alumni);
+        return view('about.alumni.alumni-otm')->with(compact('alumni'))->with(compact('alumniotm'));
     }
 }

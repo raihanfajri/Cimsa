@@ -10,6 +10,7 @@ use App\User;
 use App\activities;
 use DataTables;
 use Yajra\DataTables\Html\Builder;
+use Hashids;
 
 class activitiesController extends Controller
 {
@@ -27,8 +28,8 @@ class activitiesController extends Controller
                 ->addColumn('action', function($activities){
                     return view('datatables._action', [
                         'model'=>$activities,
-                        'id'=>$activities->id,
-                        'form_url'=>'admin/destroy/'.$activities->id,
+                        'id'=>Hashids::encode($activities->id),
+                        'form_url'=>'admin/activities/destroy/'.Hashids::encode($activities->id),
                         'confirm_message'=>'Yakin ingin menghapus '.$activities->title.' ?'
                     ]);
                 })
@@ -43,7 +44,7 @@ class activitiesController extends Controller
                     ['data'=>'author', 'name'=>'author', 'title'=>'Author'],
                     ['data'=>'action', 'name'=>'action', 'title'=>'Action', 
                 'orderable'=>'false', 'searchable'=>'false']]);
-        return view('admin.pages.activities')->with(compact('html'));
+        return view('admin.pages.activities');
     }
 
     /**
@@ -108,7 +109,8 @@ class activitiesController extends Controller
         //
         if($request->ajax())
         {
-            $activities = activities::find($id);
+            $id = Hashids::decode($id);
+            $activities = activities::find($id[0]);
             $activities->image = '/images/activities/' . $activities->image;
             $previewimage = View::make('layouts._imgpreview', [
                             'image'=>$activities->image,
@@ -116,6 +118,9 @@ class activitiesController extends Controller
                             ]);
             $previewimage = (string) $previewimage;
             return response()->json(['data'=>$activities,'imgpreview'=>$previewimage]);
+        }
+        else{
+            abort(404);
         }
     }
 
@@ -129,7 +134,8 @@ class activitiesController extends Controller
     public function update(Request $request, $id)
     {
         //
-        $activities = activities::find($id);
+        $id = Hashids::decode($id);
+        $activities = activities::find($id[0]);
         $activities->title = $request->edittitle;
         $activities->author = $request->editauthor;
         $activities->content = $request->editcontent;
@@ -171,7 +177,8 @@ class activitiesController extends Controller
     public function destroy($id)
     {
         //
-        $activities = activities::find($id);
+        $id = Hashids::decode($id);
+        $activities = activities::find($id[0]);
         $imgname = $activities->image;
         if($activities->delete())
         {

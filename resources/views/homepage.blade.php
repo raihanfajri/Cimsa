@@ -110,48 +110,42 @@
                <div class="col-md-4 col-xs-12">
                     <div class="card img-animated-section4" style="width: 20rem;">
                         <img class="card-img-top" 
-                        src="https://catatankuliahnya.files.wordpress.com/2008/10/psikm001.jpg" 
+                        src="{{$articles->image}}" 
                         alt="Card image cap">
                         <span class="img-preview fade-caption">
-                            <p>Lorem ipsum dolor sit amet, 
-                            lLorem ipsum dolor sit amet, 
-                            lLorem ipsum dolor sit amet, lLorem ipsum dolor sit amet... 
-                            <a href="articles-detail.html#disqus_thread">read more</a></p>
+                            {{ substr(strip_tags($articles->content),0,80).'...' }}
+                            <a href="{{ route('articles.detail', $articles->id) }}">read more</a></p>
                         </span>
                         <div class="card-body">
-                            <h4 class="card-text">HBDI 2017</h4>
+                            <h4 class="card-text">{{$articles->title}}</h4>
                         </div>
                     </div>
                </div>
                 <div class="col-md-4 col-xs-12">
                     <div class="card img-animated-section4" style="width: 20rem;">
                         <img class="card-img-top" 
-                        src="https://catatankuliahnya.files.wordpress.com/2008/10/psikm001.jpg" 
+                        src="{{$activities->image}}" 
                         alt="Card image cap">
                         <span class="img-preview fade-caption">
-                            <p>Lorem ipsum dolor sit amet, 
-                            lLorem ipsum dolor sit amet, 
-                            lLorem ipsum dolor sit amet, lLorem ipsum dolor sit amet... 
-                            <a href="articles-detail.html#disqus_thread">read more</a></p>
+                            {{ substr(strip_tags($activities->content),0,80).'...' }}
+                            <a href="{{ route('activity.detail', $activities->id) }}">read more</a></p>
                         </span>
                         <div class="card-body">
-                            <h4 class="card-text">Upgrading CIMSA UNAND</h4>
+                            <h4 class="card-text">{{$activities->title}}</h4>
                         </div>
                     </div>
                </div>
                 <div class="col-md-4 col-xs-12">
                     <div class="card img-animated-section4" style="width: 20rem;">
                         <img class="card-img-top" 
-                        src="https://catatankuliahnya.files.wordpress.com/2008/10/psikm001.jpg" 
+                        src="{{$catalogs->image}}" 
                         alt="Card image cap">
-                        <span class="img-preview fade-caption">
-                            <p>Lorem ipsum dolor sit amet, 
-                            lLorem ipsum dolor sit amet, 
-                            lLorem ipsum dolor sit amet, lLorem ipsum dolor sit amet... 
-                            <a href="articles-detail.html#disqus_thread">read more</a></p>
+                        <span class="img-preview fade-caption fr-view">
+                            {{substr(strip_tags($catalogs->description),0,80).'...'}}
+                            <a href="{{url('/catalogs')}}">read more</a></p>
                         </span>
                         <div class="card-body">
-                            <h4 class="card-text">Working Assembly 2017</h4>
+                            <h4 class="card-text">{{$catalogs->name}}</h4>
                         </div>
                     </div>
                </div>

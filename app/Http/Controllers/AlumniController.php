@@ -8,8 +8,10 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\View;
 use App\User;
 use App\alumni;
+use App\alumniofthemonth;
 use DataTables;
 use Yajra\DataTables\Html\Builder;
+use Hashids;
 
 class AlumniController extends Controller
 {
@@ -27,13 +29,15 @@ class AlumniController extends Controller
                 ->addColumn('action', function($alumni){
                     return view('datatables._action', [
                         'model'=>$alumni,
-                        'id'=>$alumni->id,
-                        'form_url'=>'admin/alumni/destroy/'.$alumni->id,
+                        'id'=>Hashids::encode($alumni->id),
+                        'form_url'=>'admin/alumni/destroy/'.Hashids::encode($alumni->id),
                         'confirm_message'=>'Yakin ingin menghapus '.$alumni->nama.' ?'
                     ]);
                 })
                 ->toJson();
         }
+        $alumnilist = alumni::orderBy('nama','asc')->pluck('nama', 'id');
+        $now = alumniofthemonth::first();
         $path = $request->root()."/images/Alumni/";
         $html = $htmlBuilder
                 ->Columns([['data'=>'nama', 'name'=>'nama', 'title'=>'Nama'],
@@ -42,7 +46,7 @@ class AlumniController extends Controller
                     ['data'=>'image', 'name'=>'image', 'title'=>'Foto', 'render' => '"<img src=\"'.$path.'"+data+"\" height=\"50\"/>"'],
                     ['data'=>'action', 'name'=>'action', 'title'=>'Action', 
                 'orderable'=>'false', 'searchable'=>'false']]);
-        return view('admin.pages.alumni')->with(compact('html'));
+        return view('admin.pages.alumni')->with(compact('alumnilist'))->with(compact('now'));
     }
 
     /**
@@ -107,7 +111,8 @@ class AlumniController extends Controller
         //
         if($request->ajax())
         {
-            $alumni = alumni::find($id);
+            $id = Hashids::decode($id);
+            $alumni = alumni::find($id[0]);
             $alumni->image = '/images/alumni/' . $alumni->image;
             $previewimage = View::make('layouts._imgpreview', [
                             'image'=>$alumni->image,
@@ -115,6 +120,9 @@ class AlumniController extends Controller
                             ]);
             $previewimage = (string) $previewimage;
             return response()->json(['data'=>$alumni,'imgpreview'=>$previewimage]);
+        }
+        else{
+            abort(404);
         }
     }
 
@@ -128,7 +136,8 @@ class AlumniController extends Controller
     public function update(Request $request, $id)
     {
         //
-        $alumni = alumni::find($id);
+        $id = Hashids::decode($id);
+        $alumni = alumni::find($id[0]);
         $alumni->nama = $request->editnama;
         $alumni->sco = $request->editsco;
         $alumni->batch = $request->editbatch;
@@ -170,7 +179,8 @@ class AlumniController extends Controller
     public function destroy($id)
     {
         //Delete item
-        $alumni = alumni::find($id);
+        $id = Hashids::decode($id);
+        $alumni = alumni::find($id[0]);
         $imgname = $alumni->image;
         if($alumni->delete())
         {
@@ -187,5 +197,18 @@ class AlumniController extends Controller
         }
         $completemessage = 'Alumni has been deleted';
         return redirect()->back()->with('completemessage',$completemessage);
+    }
+
+    public function storeUpdateAlumniOfTheMonth(Request $request)
+    {
+        $alumniofthemonth = alumniofthemonth::first();
+        if(empty($alumniofthemonth)){
+            $alumniofthemonth = new alumniofthemonth;   
+        }
+        $alumniofthemonth->id_alumni = $request->nama;
+        $alumniofthemonth->description = $request->description;
+        $alumniofthemonth->author = $request->author;
+        $alumniofthemonth->save();
+        return redirect()->back();
     }
 }

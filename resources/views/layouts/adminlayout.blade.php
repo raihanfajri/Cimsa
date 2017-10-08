@@ -10,6 +10,7 @@
 
     <title>CIMSA UNAND | ADMIN</title>
     @yield('css')
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <link rel="shortcut icon" href="{{asset('logo/logo-primary.png')}}" />
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" type="text/css" href="{{asset('/vendor/bootstrap-admin/css/bootstrap.min.css')}}">
@@ -51,11 +52,14 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="index.html">CIMSA ADMIN</a>
+        <a class="navbar-brand" href="{{ url('admin/') }}">CIMSA ADMIN</a>
     </div>
     <div class="navbar-default sidebar" role="navigation">
         <div class="sidebar-nav navbar-collapse">
             <ul class="nav" id="side-menu">
+                <li>
+                    <a href="{{ url('/') }}"><i class="fa fa-home fa-fw"></i> Home</a>
+                </li>
                 <li>
                     <a href="{{ url('admin/') }}"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
                 </li>
@@ -81,7 +85,10 @@
                     <!-- /.nav-second-level -->
                 </li>
                 <li>
-                    <a href="/"><i class="fa fa-sign-out" aria-hidden="true"></i>   Logout</a>
+                    {!! Form::open(['url'=>'logout','method'=>'post','id'=>'form-logout']) !!}
+                        
+                    {!! Form::close() !!}
+                    <a href='' id="logout"><i class="fa fa-sign-out" aria-hidden="true"></i>   Logout</a>
                 </li>
             </ul>
         </div>
@@ -91,6 +98,8 @@
 </nav>
 @yield('content')
 <!-- jQuery -->
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script type="text/javascript" src="{{asset('/vendor/jquery/jquery.min.js')}}"></script>
 <!-- Bootstrap Core JavaScript -->
 <script type="text/javascript" src="{{asset('/vendor/bootstrap-admin/js/bootstrap.min.js')}}"></script>
@@ -114,6 +123,10 @@
 <script type="text/javascript" src="{{asset('/js/sb-admin-2.js')}}"></script>
 <!-- Page-Level Demo Scripts - Tables - Use for reference -->
 <script>
+    $('#logout').click(function(){
+        event.preventDefault();
+        $('#form-logout').submit()
+    })
     $(document).ready(function () {
         $('#dataTables-example').DataTable({
             responsive: true
@@ -142,7 +155,7 @@
             alert(msg);
         });
     });
-    function submitdelete(){
+    function submitdelete(id){
         swal({
             title: 'Are you sure?',
             text: "You won't be able to revert this!",
@@ -152,18 +165,9 @@
             cancelButtonColor: '#d33',
             confirmButtonText: 'Yes, delete it!'
         }).then(function () {
-            $('#deleteform').submit();
+            $('#deleteform'+id).submit();
         })
     }
 </script>
-@if(session('completemessage'))
-    <script>
-        swal(
-            'Deleted!',
-            "{{ session('completemessage') }}",
-            'success'
-        )
-    </script>
-@endif
 @yield('script')
 </html>

@@ -66,10 +66,16 @@
                 </li>
                  <li class="nav-item {{ Request::is('standing-committees') ? 'active' : '' }}">
                     <a class="nav-link text-center" href="{{ url('/standing-committees') }}"><b>Standing Committees</b></a>
-                </li> 
-                <li class="nav-item ">
-                    <a class="nav-link text-center" href="#" data-toggle="modal" data-target=".login-modal-lg"><b>Login</b></a>
                 </li>
+                @if(!Auth::check())
+                    <li class="nav-item ">
+                        <a class="nav-link text-center" href="#" data-toggle="modal" data-target=".login-modal-lg"><b>Login</b></a>
+                    </li>
+                    @else
+                    <li class="nav-item ">
+                        <a class="nav-link text-center" href="{{ url('/admin') }}" ><b>Admin Page</b></a>
+                    </li>
+                @endif
                 <a href="{{ url('catalogs') }}" style="margin-right: 20px;" id="catalogs">
                     <i class="fa fa-shopping-cart fa-2x text-center" aria-hidden="true"></i>
                 </a>
@@ -80,7 +86,7 @@
     @yield('content')
 
     <!-- Footer -->
-    <footer class="py-5 bg-dark {{ Request::is('standing-committees')  ? 'footer-sc' : '' }}">
+    <footer class="py-5 bg-dark ">
         <div class="container">
             <div class="row">
                 <div class="col-md-6 pull-left">

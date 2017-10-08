@@ -23,7 +23,17 @@
                     </div>
                     <!-- /.panel-heading -->
                     <div class="panel-body">
-                        {!! $html->table(['width'=>'100%','class'=>'table table-bordered']) !!} 
+                        
+                        <table class="table table-bordered" id="tabledata">
+                            <thead>
+                                <tr>
+                                    <th>Title</th>
+                                    <th>Date</th>
+                                    <th>Author</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                        </table>
                     </div>
                     <!-- /.panel-body -->
                 </div>
@@ -47,7 +57,7 @@ aria-labelledby="myEditLargeModalLabel" data-backdrop="static"
                 <h4 class="modal-title">Edit Article</h4>
             </div>
             <div class="modal-body">
-                {!! Form::open(['url'=> 'admin/articles/update', 'method'=>'post', 'class'=>'clearfix','id'=>'form-edit-modal','files' => 'true']) !!}
+                {!! Form::open(['url'=> '', 'method'=>'post', 'class'=>'clearfix','id'=>'form-edit-modal','files' => 'true']) !!}
                     <div class="form-group">
                         {!! Form::text('edittitle', null, ['class'=>'form-control','placeholder'=>'Title','id'=>'edit-title','required'=>'true']) !!}
                     </div>
@@ -109,8 +119,17 @@ tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" data-backdrop="s
 </div>
 @endsection
 @section('script')
-    {!! $html->scripts() !!}
     <script>
+        $('#tabledata').DataTable({
+            processing : true,
+            serverside : true,
+            ajax : '/admin/articles/datatable',
+            columns : [
+                    {data:'title', name:'title'},
+                    {data:'updated_at', name:'updated_at'},
+                    {data:'author', name:'author'},
+                    {data:'action', name:'action' ,orderable:'false', searchable:'false'}]
+        })
         $(document).ready(function () {
             $('textarea').froalaEditor({
                 height: 150,
@@ -131,6 +150,7 @@ tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" data-backdrop="s
         }
         function geteditdata(self){
             var iditem = self.getAttribute('data');
+            var url = 'articles/update/'+iditem
             $.ajax({
                 url:'/admin/articles/edit/'+iditem,
                 method:'GET'
@@ -138,7 +158,7 @@ tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" data-backdrop="s
                 $('#edit-title').val(res.data.title)
                 $('#edit-author').val(res.data.author)
                 $('#edit-content').val(res.data.content)
-                $('#form-edit-modal').attr('action',$('#form-edit-modal').attr('action')+'/'+iditem)
+                $('#form-edit-modal').attr('action',url)
                 $('.fr-placeholder').html('')
                 $('.fr-element').html(res.data.content)
                 $('.preview-image').html(res.imgpreview)

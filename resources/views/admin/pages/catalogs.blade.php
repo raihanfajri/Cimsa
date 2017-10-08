@@ -23,7 +23,16 @@
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">
-                            {!! $html->table(['width'=>'100%','class'=>'table table-bordered']) !!}                             
+                            <table class="table table-bordered" id="dataTables-catalogs">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Price</th>
+                                        <th>Image</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                            </table>
                         </div>
                         <!-- /.panel-body -->
                     </div>
@@ -56,7 +65,8 @@
                         <br>
                         <div class="form-group">
                             {!! Form::label('description', 'Description') !!}
-                            {!! Form::textarea('description', null, ['class'=>'form-control textarea fr-view','rows'=>'15','required'=>'true','id'=>'edit-content']) !!}
+                            {!! Form::textarea('description', null, ['class'=>'form-control','rows'=>'15','required'=>'true','id'=>'edit-content']) !!}
+                            <div class="fr"></div>
                         </div>
                         <div class="form-group">
                             {!! Form::label('input', 'Upload image') !!}
@@ -112,7 +122,6 @@
 </body>
 @endsection
 @section('script')
-    {!! $html->scripts() !!}
     <script>
         $(document).ready(function () {
             $('textarea').froalaEditor({
@@ -128,12 +137,30 @@
                 // of the buttons defined in customImageButtons.
             });
         });
+        var path = "/images/catalogs/"
+        $('#dataTables-catalogs').DataTable({
+            processing : true,
+            serverside : true,
+            ajax : '/admin/catalogs',
+            columns : [
+                    {data:'name', name:'name'},
+                    {data:'price', name:'price'},
+                    {
+                        data:'image', 
+                        name:'image',
+                        render: function (data, type, full, meta) {
+                            return "<img src=\""+path+data+"\" height=\"50\"/>"
+                        }
+                    },
+                    {data:'action', name:'action' ,orderable:'false', searchable:'false'}]
+        })
         function removeeditdata(){
             $('.fr-placeholder').html('Type something')
             $('.fr-element').html('')
         }
         function geteditdata(self){
             var iditem = self.getAttribute('data');
+            var url = 'catalogs/update/'+iditem
             $.ajax({
                 url:'/admin/catalogs/edit/'+iditem,
                 method:'GET'
@@ -141,7 +168,7 @@
                 $('#edit-name').val(res.data.name)
                 $('#edit-price').val(res.data.price)
                 $('#edit-description').val(res.data.description)
-                $('#form-edit-modal').attr('action',$('#form-edit-modal').attr('action')+'/'+iditem)
+                $('#form-edit-modal').attr('action',url)
                 $('.fr-placeholder').html('')
                 $('.fr-element').html(res.data.description)
                 $('.preview-image').html(res.imgpreview)

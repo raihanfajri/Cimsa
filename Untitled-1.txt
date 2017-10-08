@@ -1,0 +1,9 @@
+Halo sebelumnya sorry belum ada suara, karena ini sedang ada di ruang kuliah hehe.
+
+Oke jadi pertama tampilan home ya :
+1. Jadi tadi liat ya buat count up itu emang teknis nya dia inisialisasi perhitungannya sejak pertam kali LOADING.
+2. Untuk recent update ini masih pake data dummy jadi masih agak berantakan.
+3. Buat pertama itu recent update buat article, terus activities, dan terakhir catalogs
+4. INi buat tampilan detail article, masih berantakan karena saya cuma buat ngetes asal bisa 
+5. Nah ini buat detail activities
+6. In itampilan catalogs, masihbelum rapih spt video sebelumnya, nanti saya rapihkan

@@ -27,9 +27,7 @@ Route::group(['prefix'=>'about'], function(){
         return view('about.alumni');
     });
 
-    Route::get('alumni/alumni-of-the-month', function(){
-        return view('about.alumni.alumni-otm');
-    });
+    Route::get('alumni/alumni-of-the-month','GuestController@showAlumniOfTheMonth');
 
     Route::get('alumni/directory','GuestController@showAlumni');
 });
@@ -74,7 +72,7 @@ Route::group(['prefix'=>'standing-committees'], function(){
     });
 });
 Route::get('catalogs', 'GuestController@showCatalogs');
-Route::group(['prefix'=>'admin'], function(){
+Route::group(['prefix'=>'admin','middleware'=> ['admin','revalidate']], function(){
     Route::get('/','DashboardController@index');
     Route::get('/catalogs','CatalogsController@index');
     Route::post('/catalogs/store','CatalogsController@store');
@@ -87,6 +85,7 @@ Route::group(['prefix'=>'admin'], function(){
     Route::put('/activities/update/{id}','ActivitiesController@update');
     Route::delete('/activities/destroy/{id}','ActivitiesController@destroy');
     Route::get('/articles','ArticlesController@index');
+    Route::get('/articles/datatable','ArticlesController@datatablesRequest');
     Route::post('/articles/store','ArticlesController@store');
     Route::get('/articles/edit/{id}','ArticlesController@edit');
     Route::post('/articles/update/{id}','ArticlesController@update');
@@ -96,7 +95,9 @@ Route::group(['prefix'=>'admin'], function(){
     Route::get('/alumni/edit/{id}','AlumniController@edit');
     Route::post('/alumni/update/{id}','AlumniController@update');
     Route::delete('/alumni/destroy/{id}','AlumniController@destroy');
+    Route::post('/alumni/storeofthemonth','AlumniController@storeUpdateAlumniOfTheMonth');
     Route::get('/message','MessageController@index');
     Route::delete('message/destroy/{id}','MessageController@destroy');
 });
 Route::post('/sendMsg','MessageController@store');
+Auth::routes();

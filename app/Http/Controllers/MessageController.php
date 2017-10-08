@@ -9,6 +9,7 @@ use App\User;
 use App\message;
 use DataTables;
 use Yajra\DataTables\Html\Builder;
+use Hashids;
 
 class MessageController extends Controller
 {
@@ -26,8 +27,8 @@ class MessageController extends Controller
                 ->addColumn('action', function($message){
                     return view('datatables._messageaction', [
                         'model'=>$message,
-                        'id'=>$message->id,
-                        'form_url'=>'admin/message/destroy/'.$message->id
+                        'id'=>Hashids::encode($message->id),
+                        'form_url'=>'admin/message/destroy/'.Hashids::encode($message->id)
                     ]);
                 })
                 ->editColumn('updated_at', function ($message) {
@@ -35,14 +36,7 @@ class MessageController extends Controller
                 })
                 ->toJson();
         }
-        $html = $htmlBuilder
-                ->Columns([['data'=>'name', 'name'=>'name', 'title'=>'Name'],
-                    ['data'=>'email', 'name'=>'email', 'title'=>'E-Mail'],
-                    ['data'=>'messagecontent', 'name'=>'messagecontent', 'title'=>'Message'],
-                    ['data'=>'updated_at', 'name'=>'updated_at', 'title'=>'Date'],
-                    ['data'=>'action', 'name'=>'action', 'title'=>'Action', 
-                'orderable'=>'false', 'searchable'=>'false']]);
-        return view('admin.pages.message')->with(compact('html'));
+        return view('admin.pages.message');
     }
 
     /**
@@ -116,7 +110,8 @@ class MessageController extends Controller
     public function destroy($id)
     {
         //
-        $message = message::find($id);
+        $id = Hashids::decode($id);
+        $message = message::find($id[0]);
         $message->delete();
         $completemessage = 'Message has been deleted';
         return redirect()->back()->with('completemessage',$completemessage);

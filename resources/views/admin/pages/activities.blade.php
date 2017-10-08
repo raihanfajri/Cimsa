@@ -23,7 +23,17 @@
                     </div>
                     <!-- /.panel-heading -->
                     <div class="panel-body">
-                        {!! $html->table(['width'=>'100%','class'=>'table table-bordered','id'=>'dataTables-activities']) !!} 
+                        
+                        <table class="table table-bordered" id="dataTables-activities">
+                            <thead>
+                                <tr>
+                                    <th>Title</th>
+                                    <th>Date</th>
+                                    <th>Author</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                        </table>
                     </div>
                     <!-- /.panel-body -->
                 </div>
@@ -109,7 +119,7 @@ aria-labelledby="myEditLargeModalLabel" data-backdrop="static"
 </div>
 @endsection
 @section('script')
-    {!! $html->scripts() !!}
+    
     <script>
         $(document).ready(function () {
             $('textarea').froalaEditor({
@@ -125,12 +135,23 @@ aria-labelledby="myEditLargeModalLabel" data-backdrop="static"
                 // of the buttons defined in customImageButtons.
             });
         });
+        $('#dataTables-activities').DataTable({
+            processing : true,
+            serverside : true,
+            ajax : '/admin/activities',
+            columns : [
+                    {data:'title', name:'title'},
+                    {data:'updated_at', name:'updated_at'},
+                    {data:'author', name:'author'},
+                    {data:'action', name:'action' ,orderable:'false', searchable:'false'}]
+        })
         function removeeditdata(){
             $('.fr-placeholder').html('Type something')
             $('.fr-element').html('')
         }
         function geteditdata(self){
             var iditem = self.getAttribute('data');
+            var url = 'activities/update/'+iditem
             $.ajax({
                 url:'/admin/activities/edit/'+iditem,
                 method:'GET'
@@ -138,7 +159,7 @@ aria-labelledby="myEditLargeModalLabel" data-backdrop="static"
                 $('#edit-title').val(res.data.title)
                 $('#edit-author').val(res.data.author)
                 $('#edit-content').val(res.data.content)
-                $('#form-edit-modal').attr('action',$('#form-edit-modal').attr('action')+'/'+iditem)
+                $('#form-edit-modal').attr('action',url)
                 $('.fr-placeholder').html('')
                 $('.fr-element').html(res.data.content)
                 $('.preview-image').html(res.imgpreview)

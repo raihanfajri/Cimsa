@@ -19,7 +19,17 @@
                     </div>
                     <!-- /.panel-heading -->
                     <div class="panel-body">
-                        {!! $html->table(['width'=>'100%','class'=>'table table-bordered','id'=>'dataTables-messages']) !!} 
+                        <table class="table table-bordered" id="dataTables-messages">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>E-Mail</th>
+                                        <th>Message</th>
+                                        <th>Date</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                            </table>
                     </div>
                     <!-- /.panel-body -->
                 </div>
@@ -32,5 +42,17 @@
 </div>
 @endsection
 @section('script')
-    {!! $html->scripts() !!}
+    <script>
+        $('#dataTables-messages').DataTable({
+            processing : true,
+            serverside : true,
+            ajax : '/admin/message',
+            columns : [
+                    {data:'name', name:'name'},
+                    {data:'email', name:'email'},
+                    {data:'messagecontent', name:'messagecontent'},
+                    {data:'updated_at', name:'updated_at'},
+                    {data:'action', name:'action' ,orderable:'false', searchable:'false'}]
+        })
+    </script>
 @endsection

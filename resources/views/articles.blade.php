@@ -12,6 +12,7 @@
     <section class="section-2 section-article container">
         <div class="card-deck" style="margin-bottom: 20px;">
             @foreach($articles as $article)
+            <div class="col-md-4">
                 <div class="card img-animated-section2">
                     <img class="card-img-top" 
                     src="{{ url('images/articles').'/'.$article->image }}" alt="Card image cap">
@@ -23,6 +24,7 @@
                         </div>
                     </div>
                 </div>
+            </div>
             @endforeach
         </div>
         <div class="d-flex">

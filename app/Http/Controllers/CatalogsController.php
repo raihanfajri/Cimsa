@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\View;
 use DataTables;
 use Yajra\DataTables\Html\Builder;
+use Hashids;
 
 class catalogsController extends Controller
 {
@@ -26,21 +27,15 @@ class catalogsController extends Controller
                 ->addColumn('action', function($catalogs){
                     return view('datatables._action', [
                         'model'=>$catalogs,
-                        'id'=>$catalogs->id,
-                        'form_url'=>'admin/catalogs/destroy/'.$catalogs->id,
+                        'id'=>Hashids::encode($catalogs->id),
+                        'form_url'=>'admin/catalogs/destroy/'.Hashids::encode($catalogs->id),
                         'confirm_message'=>'Yakin ingin menghapus '.$catalogs->title.' ?'
                     ]);
                 })
+                ->editColumn('price','Rp {{ number_format($price,0,"",".") }}')
                 ->toJson();
         }
-        $path = $request->root()."/images/catalogs/";
-        $html = $htmlBuilder
-                ->Columns([['data'=>'name', 'name'=>'name', 'title'=>'Title'],
-                    ['data'=>'price', 'name'=>'price', 'title'=>'Price','type' => 'num-fmt'],
-                    ['data'=>'image', 'name'=>'image', 'title'=>'Image', 'render' => '"<img src=\"'.$path.'"+data+"\" height=\"50\"/>"'],
-                    ['data'=>'action', 'name'=>'action', 'title'=>'Action', 
-                'orderable'=>'false', 'searchable'=>'false']]);
-        return view('admin.pages.catalogs')->with(compact('html'));
+        return view('admin.pages.catalogs');
     }
 
     /**
@@ -108,7 +103,8 @@ class catalogsController extends Controller
         //
         if($request->ajax())
         {  
-            $catalogs = catalogs::find($id);
+            $id = Hashids::decode($id);
+            $catalogs = catalogs::find($id[0]);
             $catalogs->image = '/images/catalogs/' . $catalogs->image;
             $previewimage = View::make('layouts._imgpreview', [
                             'image'=>$catalogs->image,
@@ -116,6 +112,9 @@ class catalogsController extends Controller
                             ]);
             $previewimage = (string) $previewimage;
             return response()->json(['data'=>$catalogs,'imgpreview'=>$previewimage]);
+        }
+        else{
+            abort(404);
         }
     }
 
@@ -129,7 +128,8 @@ class catalogsController extends Controller
     public function update(Request $request, $id)
     {
         //edit catalog
-        $catalogs = catalogs::find($id);
+        $id = Hashids::decode($id);
+        $catalogs = catalogs::find($id[0]);
         $catalogs->name = $request->editname;
         $catalogs->price = $request->editprice;
         $catalogs->description = $request->editdescription;
@@ -171,7 +171,8 @@ class catalogsController extends Controller
     public function destroy($id)
     {
         //
-        $catalogs = catalogs::find($id);
+        $id = Hashids::decode($id);
+        $catalogs = catalogs::find($id[0]);
         $imgname = $catalogs->image;
         if($catalogs->delete())
         {

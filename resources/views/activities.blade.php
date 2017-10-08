@@ -12,7 +12,8 @@
     <section class="section-2 section-article container">
         <div class="card-deck" style="margin-bottom: 20px;">
             @foreach($activities as $activity)
-                <div class="card img-animated-section2">
+                <div class="col-md-4">
+                    <div class="card img-animated-section2">
                     <img class="card-img-top" 
                     src="{{ url('images/activities').'/'.$activity->image }}" alt="Card image cap">
                     <div class="card-body">
@@ -22,6 +23,7 @@
                             <a href="{{ route('activity.detail', $activity->id) }}">[ Read more ]</a>
                         </div>
                     </div>
+                </div>
                 </div>
             @endforeach
         </div>
